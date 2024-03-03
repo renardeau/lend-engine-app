@@ -21,9 +21,18 @@ CREATE TABLE `account` (
   `time_zone` varchar(255) NOT NULL DEFAULT 'Europe/London',
   `industry` varchar(255) DEFAULT NULL,
   `org_email` varchar(255) NOT NULL,
+  `migration_started` datetime DEFAULT NULL,
+  `migration_completed` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `stub_UNIQUE` (`stub`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `_core`.`tenant_note` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `added_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `note` varchar(255) NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
