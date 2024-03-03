@@ -19,7 +19,8 @@ and then run `composer install` to add dependencies (with composer v2.2.x).
 2. Run `tenant_setup.sql` - this adds a development account into the tenant list. Set your email.
 3. Add your environment variables
 4. If your dev server is running at localhost:8001, add that as the stub for the account.
-5. ``CREATE DATABASE unit_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;``
+5. ``CREATE DATABASE unit_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;``  
+   ``CREATE DATABASE _skeleton CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;``
 6. ``UPDATE _core.account SET status = 'DEPLOYING' where stub = 'unit_test';``
 7. Set `account.owner_name` and `account.owner_email` to yours.
 8. Lastly, visit the deployment URL to create a new account 
