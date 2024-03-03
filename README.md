@@ -7,7 +7,7 @@ Feature suggestions and pull requests are welcome (with the caveat that we need 
 
 **Requirements**
 
-- PHP 7.2.x
+- PHP 7.4.x
 - MySql 5.7.x
 - An AWS S3 account for file uploads
 - A Postmark account for outgoing emails
@@ -15,7 +15,7 @@ Feature suggestions and pull requests are welcome (with the caveat that we need 
 **Getting started**
 
 1. Download the repo from https://github.com/lend-engine/lend-engine-app 
-and then run `composer install` to add dependencies.
+and then run `composer install` to add dependencies (with composer v2.2.x).
 2. Run `tenant_setup.sql` - this adds a development account into the tenant list. Set your email.
 3. Add your environment variables
 4. If your dev server is running at localhost:8001, add that as the stub for the account.
