@@ -69,7 +69,10 @@
 
             $('.data-table').DataTable({
                 pageLength: 50,
-                ordering: true
+                ordering: true,
+                order: [
+                    [3, 'desc']
+                ]
             });
         });
     </script>
