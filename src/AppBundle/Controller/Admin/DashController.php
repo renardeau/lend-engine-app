@@ -119,7 +119,6 @@ class DashController extends Controller
 
         /** @var \AppBundle\Services\Membership\MembershipService $membershipService */
         $membershipService = $this->get('service.membership');
-        $membershipsAdded = $membershipService->membershipsAddedByMonth();
 
         /** @var \AppBundle\Services\Item\ItemService $itemService */
         $itemService = $this->get('service.item');
@@ -135,7 +134,6 @@ class DashController extends Controller
 
         $membersAddedByMonth = [];
         $itemsAddedByMonth   = [];
-        $membershipsAddedByMonth = [];
         $loansAddedByMonth = [];
         $labels  = [];
 
@@ -163,7 +161,6 @@ class DashController extends Controller
 
         $totalMembers     = $contactService->countAllContacts($chartStartDate);
         $totalItems       = $itemService->countAllItems($chartStartDate);
-        $totalMemberships = $membershipService->countMemberships($chartStartDate);
 
         foreach ($keys AS $key) {
             // Contacts
@@ -183,12 +180,8 @@ class DashController extends Controller
             $itemsGrowth[] = $totalItems;
 
             // Memberships
-            if (!isset($membershipsAdded[$key])) {
-                $membershipsAdded[$key] = 0;
-            }
-            $membershipsAddedByMonth[] = $membershipsAdded[$key];
-            $totalMemberships += $membershipsAdded[$key];
-            $membershipsGrowth[] = $totalMemberships;
+            $activeMemberships = $membershipService->countActiveMemberships(\DateTime::createFromFormat('Y-m-d',$key.'-01'));
+            $membershipsGrowth[] = $activeMemberships;
 
             // Loans
             if (!isset($loansAdded[$key])) {
@@ -235,7 +228,6 @@ class DashController extends Controller
             'loansAddedByMonth' => implode(',', $loansAddedByMonth),
             'contactsAddedByMonth' => implode(',', $membersAddedByMonth),
             'contactsGrowth' => implode(',', $memberGrowth),
-            'membershipsAddedByMonth' => implode(',', $membershipsAddedByMonth),
             'membershipsGrowth' => implode(',', $membershipsGrowth),
             'membershipFeesByMonth' => implode(',', $membershipFeesByMonth),
             'eventFeesByMonth' => implode(',', $eventFeesByMonth),
