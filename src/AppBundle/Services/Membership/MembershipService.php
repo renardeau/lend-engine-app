@@ -56,18 +56,22 @@ class MembershipService
     }
 
     /**
-     * @param \DateTime $dateTo
-     * @return int
+     * Count memberships that where ACTIVE on given date (might be EXPIRED now)
+     * Eliminate duplicates for contact as multiple expired memberships might span same period
+     * but only one was ACTIVE at any given time
+     * @return int count of active memberships at given date
+     * @throws DBALException
      */
-    public function countMemberships(\DateTime $dateTo = null)
+    public function countActiveMemberships(\DateTime $date = null)
     {
         $repository = $this->em->getRepository('AppBundle:Membership');
         $builder = $repository->createQueryBuilder('m');
-        $builder->add('select', 'COUNT(m) AS qty');
-        $builder->where("m.status = 'ACTIVE'");
-        if ($dateTo) {
-            $builder->andWhere("m.createdAt < :dateTo");
-            $builder->setParameter('dateTo', $dateTo->format("Y-m-01"));
+        $builder->add('select', 'COUNT( DISTINCT(m.contact)) AS qty');
+        $builder->where("m.status IN ('ACTIVE', 'EXPIRED')");
+        if ($date) {
+            $builder->andWhere("m.startsAt < :date");
+            $builder->andWhere("m.expiresAt >= :date");
+            $builder->setParameter('date', $date->format("Y-m-d"));
         }
         $query = $builder->getQuery();
         if ( $results = $query->getResult() ) {
